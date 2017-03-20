@@ -12,3 +12,16 @@ on init
     symlink /dev/block/mmcblk1p23 /dev/block/webtop
     symlink /dev/block/mmcblk1p24 /dev/block/userdata
     symlink /dev/block/mmcblk1p25 /dev/block/emstorage
+
+# Load RIL vendor library patched to allow RDS socket access for nemo user
+# needed for audio to work in calls
+on property:rild.libpath=/system/lib/libmoto_ril.so
+    setprop rild.libpath /usr/libexec/droid-hybris/system/lib/libmoto_ril.so
+
+on property:cdma_ril.libpath=/system/lib/libmoto_ril.so
+    setprop cdma_ril.libpath /usr/libexec/droid-hybris/system/lib/libmoto_ril.so
+
+service sensorservice /system/bin/sensorservice
+    class late_start
+    user root
+    group root
